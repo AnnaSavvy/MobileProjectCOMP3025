@@ -42,7 +42,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_ROUTINE, null, values);
         db.close();
     }
+    public void updateRoutineItem(RoutineItem item) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_NAME, item.getName());
+        values.put(COLUMN_COMPLETED, item.isCompleted() ? 1 : 0);
 
+
+        db.update(TABLE_ROUTINE, values, COLUMN_ID + " = ?", new String[]{String.valueOf(item.getId())});
+        db.close();
+    }
     public ArrayList<RoutineItem> getAllRoutineItems() {
         ArrayList<RoutineItem> itemList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_ROUTINE;

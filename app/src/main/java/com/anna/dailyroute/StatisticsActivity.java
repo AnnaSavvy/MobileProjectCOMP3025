@@ -1,6 +1,8 @@
 package com.anna.dailyroute;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.CalendarView;
@@ -23,6 +25,7 @@ public class StatisticsActivity extends AppCompatActivity {
         streakTextView = findViewById(R.id.streakTextView);
         awardTextView = findViewById(R.id.awardTextView);
         awardsManager = new AwardsManager(this);
+        Button backToMainButton = findViewById(R.id.backToMainButton);
 
         monthlyProgressBar = findViewById(R.id.monthlyProgressBar);
         monthlyCompletionRateTextView = findViewById(R.id.monthlyCompletionRateTextView);
@@ -30,6 +33,13 @@ public class StatisticsActivity extends AppCompatActivity {
 
         updateStatistics();
         updateMonthlyStatistics();
+
+        backToMainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void updateStatistics() {
@@ -46,5 +56,6 @@ public class StatisticsActivity extends AppCompatActivity {
         monthlyProgressBar.setProgress(completionRate);
         monthlyCompletionRateTextView.setText(completionRate + "%");
     }
+
 
 }
