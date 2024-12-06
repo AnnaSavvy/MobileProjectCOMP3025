@@ -7,6 +7,9 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class RoutineListAdapter extends ArrayAdapter<RoutineItem> {
     private final ArrayList<RoutineItem> items;
@@ -30,11 +33,17 @@ public class RoutineListAdapter extends ArrayAdapter<RoutineItem> {
         CheckBox itemCheckBox = convertView.findViewById(R.id.itemCheckBox);
 
         itemName.setText(currentItem.getName());
-        itemCheckBox.setChecked(currentItem.isCompleted());
 
-        // Atualizar estado do item ao clicar no CheckBox
+        // Verificar se o item foi concluído no dia atual
+        String todayDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        boolean isTodayCompleted = todayDate.equals(currentItem.getCompletionDate());
+        itemCheckBox.setChecked(isTodayCompleted);
+
+        // Atualizar estado ao clicar no CheckBox
         itemCheckBox.setOnClickListener(v -> {
-            currentItem.setCompleted(itemCheckBox.isChecked());
+            boolean isChecked = itemCheckBox.isChecked();
+            currentItem.setCompleted(isChecked);
+            currentItem.setCompletionDate(isChecked ? todayDate : null); // Atualiza a data
             dbHelper.updateRoutineItem(currentItem);
         });
 

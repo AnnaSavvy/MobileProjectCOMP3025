@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.CalendarView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class StatisticsActivity extends AppCompatActivity {
     private TextView streakTextView;
@@ -40,6 +41,18 @@ public class StatisticsActivity extends AppCompatActivity {
                 finish();
             }
         });
+        completionCalendarView.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+            String selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
+
+            Toast.makeText(StatisticsActivity.this, "date selected: " + selectedDate, Toast.LENGTH_SHORT).show();
+
+            fetchDataForDate(selectedDate);
+        });
+
+
+
+
+
     }
 
     private void updateStatistics() {
@@ -56,6 +69,18 @@ public class StatisticsActivity extends AppCompatActivity {
         monthlyProgressBar.setProgress(completionRate);
         monthlyCompletionRateTextView.setText(completionRate + "%");
     }
+    private void fetchDataForDate(String date) {
+        String mockStreak = "Streak: ";
+        String mockAward = "";
+        String mockCompletionRate = ": 80%";
 
+        streakTextView.setText(mockStreak);
+        awardTextView.setText(mockAward);
+        monthlyCompletionRateTextView.setText(mockCompletionRate);
+
+
+        // Cursor cursor = database.rawQuery("SELECT * FROM sua_tabela WHERE data = ?", new String[]{date});
+        // if (cursor.moveToFirst()) { ... }
+    }
 
 }
