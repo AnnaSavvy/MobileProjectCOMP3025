@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Monthly Statistics"
+            android:text="Day Statistics"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_marginBottom="16dp"/>
@@ -35,20 +35,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Monthly Completion Rate"
+            android:text="Day Completion Rate"
             android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginBottom="8dp"/>
 
         <ProgressBar
-            android:id="@+id/monthlyProgressBar"
+            android:id="@+id/dailyProgressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"/>
 
         <TextView
-            android:id="@+id/monthlyCompletionRateTextView"
+            android:id="@+id/dailyCompletionRateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"

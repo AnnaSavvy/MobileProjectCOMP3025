@@ -7,11 +7,9 @@ public class RoutineItem {
     private String dateCompleted; // Novo campo
     private String completionDate;
 
-    // Construtor sem argumentos (obrigatório se você tiver outros construtores)
     public RoutineItem() {
     }
 
-    // Construtor com argumentos
     public RoutineItem(String name, boolean isCompleted) {
         this.name = name;
         this.isCompleted = isCompleted;

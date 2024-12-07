@@ -21,6 +21,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_COMPLETED = "completed";
     private static final String COLUMN_DATE_COMPLETED = "date_completed";
 
+    // Tarefas predefinidas
+    private static final String[] PREDEFINED_TASKS = {
+            "Morning Exercise",
+            "Drink Water",
+            "Read a Book",
+            "Meditate",
+            "Plan Your Day",
+            "Write a Journal",
+            "Clean Your Desk",
+            "Learn a New Skill",
+            "Connect with a Friend",
+            "Go for a Walk"
+    };
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -35,6 +48,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createTable);
         Log.d("DatabaseHelper", "Table " + TABLE_ROUTINE + " created successfully.");
 
+        // Inserir tarefas predefinidas
+        insertPredefinedTasks(db);
     }
 
     @Override
@@ -45,6 +60,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    // Método para inserir tarefas predefinidas
+    private void insertPredefinedTasks(SQLiteDatabase db) {
+        String query = "SELECT COUNT(*) FROM " + TABLE_ROUTINE;
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst() && cursor.getInt(0) == 0) { // Se a tabela estiver vazia
+            for (String task : PREDEFINED_TASKS) {
+                ContentValues values = new ContentValues();
+                values.put(COLUMN_NAME, task);
+                values.put(COLUMN_COMPLETED, 0); // Tarefa não completa por padrão
+                values.put(COLUMN_DATE_COMPLETED, (String) null); // Sem data de conclusão inicialmente
+                db.insert(TABLE_ROUTINE, null, values);
+            }
+            Log.d("DatabaseHelper", "Predefined tasks inserted.");
+        } else {
+            Log.d("DatabaseHelper", "Predefined tasks already exist.");
+        }
+
+        cursor.close();
+    }
+
+    // Método para adicionar um item de rotina
     public void addRoutineItem(RoutineItem item) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -55,6 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    // Método para atualizar um item de rotina
     public void updateRoutineItem(RoutineItem item) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -65,6 +103,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    // Método para obter todos os itens de rotina
     public ArrayList<RoutineItem> getAllRoutineItems() {
         ArrayList<RoutineItem> itemList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_ROUTINE;
